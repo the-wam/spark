@@ -1,13 +1,17 @@
+# coding: utf-8
+
 import os
 import sys
 
 sys.path.insert(0, "./src")
 
 from utilities.session import new_session
-from utilities.manipulate_data import import_csv, to_parquet
-from cleaning.cleaning import *
-from group.group_data import group_by_hebergement_and_adress
+from utilities.manipulate_data import import_csv, to_parquet, save_csv
+from cleaning.cleaning import cleainng_order
+from group.group_data import final_group
 
+
+from pyspark.sql.functions import col
 def main():
     # create session 
     spark = new_session()
@@ -17,15 +21,22 @@ def main():
     
     # create a parquet file with options
     partition_by = "type"
-    path_parquet_file = "./data/bor_erp.parquet"
+    path_parquet_file = "./data/parquet/bor_erp.parquet"
     data_parquet = to_parquet(spark, df, partition_by, path_parquet_file)
 
+    # data_parquet.dropDuplicates(["geometrie", "nb_visiteurs_max"]).show(20)
     data_parquet.printSchema()
-
+    
     # cleaning
-    step1 = drop_nb_visitors_zero_negative(data_parquet, "nb_visiteurs_max")
-    step2 = to_lowercase(step1, "adresse_1")
-    step3 = 
+    data_parquet = cleainng_order(data_parquet)
+
+    # group data
+    data_parquet = final_group(data_parquet)
+
+    # save as csv
+    save_csv(data_parquet, "./data/csv/final.csv")
+    
+    
 
 if __name__ == '__main__':
     main()
