@@ -1,4 +1,5 @@
 ipython
 pandas
+pre-commit
 pyspark
 pytest

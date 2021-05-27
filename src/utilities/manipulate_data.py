@@ -1,7 +1,7 @@
-import os
-import glob
+# coding: utf-8
 
-def import_csv(spark, path, infer_schema = "true", header = "true", sep = ";"):
+
+def import_csv(spark, path, infer_schema="true", header="true", sep=";"):
     """
     import a csv file
     and return a dataframe
@@ -9,11 +9,13 @@ def import_csv(spark, path, infer_schema = "true", header = "true", sep = ";"):
     file_location = path
     file_type = "csv"
 
-    df = spark.read.format(file_type) \
-            .option("inferSchema", infer_schema) \
-            .option("header", header) \
-            .option("sep", sep) \
-            .load(file_location)
+    df = (
+        spark.read.format(file_type)
+        .option("inferSchema", infer_schema)
+        .option("header", header)
+        .option("sep", sep)
+        .load(file_location)
+    )
 
     return df
 
@@ -25,9 +27,10 @@ def save_csv(df, path):
     """
     df.coalesce(1).write.csv(path)
 
+
 def write_parquet(df, partition_by, path):
     """
-    Write a parquet file 
+    Write a parquet file
 
     """
 
@@ -36,7 +39,7 @@ def write_parquet(df, partition_by, path):
 
 def read_parquet(spark, path):
     """
-    Read a parquet file 
+    Read a parquet file
     and return a dataframe
     """
 
@@ -51,4 +54,3 @@ def to_parquet(spark, df, partition_by, path):
     write_parquet(df, partition_by, path)
 
     return read_parquet(spark, path)
-

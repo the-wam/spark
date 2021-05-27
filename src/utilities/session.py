@@ -1,4 +1,7 @@
+# coding: utf-8
+
 from pyspark.sql import SparkSession
+
 
 def new_session():
     """
@@ -9,10 +12,6 @@ def new_session():
     master = "local"
     appName = "App Name"
 
-    spark = SparkSession.builder \
-    .master(master) \
-    .appName(appName) \
-    .getOrCreate()
+    spark = SparkSession.builder.master(master).appName(appName).getOrCreate()
 
     return spark
-

@@ -3,6 +3,7 @@ spark-3.1.1-bin-hadoop2.7/
 .pytest_cache/
 data/
 env/
+tests/__pycache__/
 src/cleaning/__pycache__/
 src/group/__pycache__/
 src/utilities/__pycache__/
