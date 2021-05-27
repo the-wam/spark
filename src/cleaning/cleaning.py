@@ -151,7 +151,7 @@ def drop_street_numbers(df, column="adresse_1"):
     return df.withColumn(
         column,
         regexp_replace(
-            col(column), r"(^ *)\d* ?/?-?à? ?\d* ?,? *(bis)?(ter)?b?t?,? *", ""
+            col(column), r"(^ *)\d* ?/?-?à? ?\d* ?,? *(bis)?(ter)?(b )?(t )?,? *", ""
         ),
     )
 

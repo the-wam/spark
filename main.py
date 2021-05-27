@@ -1,13 +1,13 @@
 # coding: utf-8
 
-from utilities.session import new_session
-from utilities.manipulate_data import import_csv, to_parquet, save_csv
-from cleaning.cleaning import cleainng_order
-from group.group_data import final_group
-
 import sys
 
 sys.path.insert(0, "./src")
+
+from utilities.session import new_session
+from utilities.manipulate_data import import_csv, to_parquet, save_csv
+from cleaning.cleaning import cleainng_order
+from group.group_data import group_ordered
 
 
 def main():
@@ -26,7 +26,7 @@ def main():
     data_parquet = cleainng_order(data_parquet)
 
     # group data
-    data_parquet = final_group(data_parquet)
+    data_parquet = group_ordered(data_parquet)
 
     # save as csv
     save_csv(data_parquet, "./data/csv/final.csv")
